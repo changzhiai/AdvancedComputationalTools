@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Make a folder for Notebook files.
+FOLD=+++STUDENT_FOLDER+++
+if [[ -d $FOLD/project ]]; then
+    echo "The folder $FOLD (for your Jupyter Notebooks) already exists.  Good."
+else
+    echo "Creating folder name '$FOLD' for your Jupyter Notebooks."
+    mkdir -p $FOLD/project
+fi
+
+# HERE WE NEED TO COPY THE NOTEBOOKS
+
+SOURCEDIR=+++SOURCEDIR+++
+
+echo "Copying notebook files into $FOLD (if missing)."
+# Order is important, the FIRST matching pattern counts.
+rsync -vrltbm -u --ignore-existing --include="*/" --include="*.traj" --exclude="*.master.db" --include="*.db" --exclude="*.master.ipynb" --include="*.ipynb" --include="*/*.png" --include="*.xyz" --include="*.py" $SOURCEDIR/. $FOLD/.
+
+SOURCEDIR=+++PROJECTDIR+++
+
+echo "Copying notebook files into $FOLD (if missing)."
+# Order is important, the FIRST matching pattern counts.
+rsync -vrltbm -u --ignore-existing --include="*/" --include="*.traj" --exclude="*.master.db" --include="*.db" --exclude="*.master.ipynb" --include="*.ipynb" --include="*/*.png" --include="*.xyz" --include="*.py" $SOURCEDIR/. $FOLD/project/.
+
